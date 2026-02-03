@@ -7,6 +7,8 @@
 
 import SwiftUI
 
-var body some: View {
-    
+struct SignUpView: View {
+    var body: some View {
+        EmptyView()
+    }
 }
