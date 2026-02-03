@@ -9,47 +9,37 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+        TabView {
+            Tab("홈", systemImage: "house.fill") {
+                NavigationStack {
+                    EmptyView()
                 }
             }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+            
+            Tab("명함", systemImage: "person.text.rectangle.fill") {
+                NavigationStack {
+                    EmptyView()
+                }
+            }
+            
+            Tab("교환", systemImage: "arrow.left.arrow.right") {
+                NavigationStack {
+                    EmptyView()
+                }
+            }
+            
+            Tab("마이페이지", systemImage: "person.circle.fill") {
+                NavigationStack {
+                    EmptyView()
+                }
+            }
+            
+            Tab(role: .search) {
+                NavigationStack {
+                    EmptyView()
+                }
+                //.searchable(text: $searchText, prompt: "프로젝트 이름 검색")
             }
         }
     }
@@ -57,5 +47,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
